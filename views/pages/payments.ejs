@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payments - SubSplit</title>
+  <link rel="stylesheet" href="/css/payment.css">
+</head>
+<body class="dashboard">
+  <div class="sidebar">
+    <div class="user-profile">
+      <img src="/uploads/<%= user.profilePic %>" alt="Profile" class="profile-pic">
+      <h4><%= user.username %></h4>
+    </div>
+    <nav>
+      <a href="/home">Home</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/payments" class="active">Payments</a>
+      <a href="/profile">Profile</a>
+      <a href="/auth/logout">Logout</a>
+    </nav>
+  </div>
+
+  <main class="main-content">
+    <header>
+      <h1>Payments</h1>
+    </header>
+
+
+<section class="payment-methods">
+  <h2>Payment Methods</h2>
+  <div class="methods-grid">
+    <div class="method-card">
+      <h3>UPI</h3>
+      <p>user@upi</p>
+      <button class="btn btn-outline">Edit</button>
+    </div>
+    <div class="method-card">
+      <h3>Credit Card</h3>
+      <p>**** **** **** 4242</p>
+      <button class="btn btn-outline">Edit</button>
+    </div>
+    <button class="btn btn-primary">Add Payment Method</button>
+  </div>
+</section>
+
+<section class="upcoming-payments">
+  <h2>Upcoming Payments</h2>
+  <% if (upcomingPayments.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Amount</th>
+          <th>Due Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% upcomingPayments.forEach(group => { %>
+          <tr>
+            <td><%= group.service %></td>
+            <td>$<%= group.pricePerUser %></td>
+            <td><%= group.nextPaymentDate.toDateString() %></td>
+            <td><button class="btn btn-primary">Pay Now</button></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>No upcoming payments.</p>
+  <% } %>
+</section>
+
+<section class="payment-history">
+  <h2>Payment History</h2>
+  <div class="filter-options">
+    <select id="filterPayments">
+      <option value="all">All Payments</option>
+      <option value="completed">Completed</option>
+      <option value="failed">Failed</option>
+    </select>
+    <input type="month" id="paymentMonth">
+  </div>
+  <% if (paymentHistory.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Service</th>
+          <th>Amount</th>
+          <th>Method</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% paymentHistory.forEach(payment => { %>
+          <tr>
+            <td><%= payment.paymentDate.toDateString() %></td>
+            <td><%= payment.group.service %></td>
+            <td>$<%= payment.amount %></td>
+            <td><%= payment.paymentMethod %></td>
+            <td><span class="status <%= payment.status %>"><%= payment.status %></span></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>No payment history found.</p>
+  <% } %>
+</section>
+
+
+  </main>
+
+  <script src="/js/payments.js"></script>
+
+</body>
+</html>
