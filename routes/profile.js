@@ -42,24 +42,24 @@ router.post('/', ensureAuthenticated, upload.single('profilePic'), async (req, r
   }
 });
 
-// Profile picture preview
-document.getElementById('profilePic').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(event) {
-      document.getElementById('profilePreview').src = event.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-});
+// // Profile picture preview
+// document.getElementById('profilePic').addEventListener('change', function(e) {
+//   const file = e.target.files[0];
+//   if (file) {
+//     const reader = new FileReader();
+//     reader.onload = function(event) {
+//       document.getElementById('profilePreview').src = event.target.result;
+//     };
+//     reader.readAsDataURL(file);
+//   }
+// });
 
-// Delete account confirmation
-document.getElementById('deleteAccountBtn').addEventListener('click', function() {
-  if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-    // Add your account deletion logic here
-    window.location.href = '/profile/delete';
-  }
-});
+// // Delete account confirmation
+// document.getElementById('deleteAccountBtn').addEventListener('click', function() {
+//   if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+//     // Add your account deletion logic here
+//     window.location.href = '/profile/delete';
+//   }
+// });
 
 module.exports = router;

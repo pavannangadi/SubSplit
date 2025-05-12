@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SubSplit - Dashboard</title>
-  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/home.css" />
 </head>
+
 <body class="dashboard">
   <div class="sidebar">
     <div class="user-profile">
-      <img src="/uploads/<%= user.profilePic %>" alt="Profile" class="profile-pic">
-      <h4><%= user.username %></h4>
+      <img src="/uploads/<%= user.profilePic %>" alt="Profile" class="profile-pic" />
+      <h4>
+        <%= user.username %>
+      </h4>
     </div>
     <nav>
       <a href="/home" class="active">Home</a>
@@ -24,47 +28,68 @@
 
   <main class="main-content">
     <header>
-      <h1>Welcome back, <%= user.username %></h1>
-      <button class="btn btn-primary" id="createGroupBtn">Create New Group</button>
+      <h1>Welcome back, <%= user.username %>
+      </h1>
+      <button class="btn btn-primary" id="createGroupBtn">
+        Create New Group
+      </button>
     </header>
 
-<section class="active-groups">
-  <h2>Your Active Groups</h2>
-  <% if (activeGroups.length > 0) { %>
-    <div class="groups-grid">
-      <% activeGroups.forEach(group => { %>
-        <div class="group-card">
-          <img src="/uploads/<%= group.image %>" alt="<%= group.service %>">
-          <h4><%= group.service %></h4>
-          <p>Your share: $<%= group.pricePerUser %>/<%= group.billingCycle %></p>
-          <p>Next payment: <%= group.nextPaymentDate.toDateString() %></p>
+    <section class="active-groups">
+      <h2>Your Active Groups</h2>
+      <% if (activeGroups.length> 0) { %>
+        <div class="groups-grid">
+          <% activeGroups.forEach(group=> { %>
+            <div class="group-card card-body">
+              <img src="/uploads/<%= group.image %>" alt="<%= group.service %>" />
+              <h4>
+                <%= group.service %>
+              </h4>
+              <p class="card-price">
+                Your share: <%= group.pricePerUser %>/<%= group.billingCycle %>
+              </p>
+              <p class="slots-badge">Slots: <%= group.filledSlots %>/<%= group.totalSlots %>
+              </p>
+              <p>Next payment: <%= group.nextPaymentDate.toDateString() %>
+              </p>
+              <button class="btn btn-outline-success w-100 predict-button">
+                Predict Plan Pricing
+              </button>
+              <p class="prediction-result mt-2 text-primary fw-bold"></p>
+            </div>
+            <% }); %>
         </div>
-      <% }); %>
-    </div>
-  <% } else { %>
-    <p>You're not part of any groups yet. Join or create one to get started!</p>
-  <% } %>
-</section>
+        <% } else { %>
+          <p>
+            You're not part of any groups yet. Join or create one to get started!
+          </p>
+          <% } %>
+    </section>
 
-<section class="recommended-groups">
-  <h2>Recommended Groups</h2>
-  <% if (recommendedGroups.length > 0) { %>
-    <div class="groups-grid">
-      <% recommendedGroups.forEach(group => { %>
-        <div class="group-card">
-          <img src="/uploads/<%= group.image %>" alt="<%= group.service %>">
-          <h4><%= group.service %></h4>
-          <p>Price: $<%= group.pricePerUser %>/<%= group.billingCycle %></p>
-          <p>Slots: <%= group.filledSlots %>/<%= group.totalSlots %></p>
-          <button class="btn btn-primary join-group" data-group="<%= group._id %>">Join Group</button>
+    <section class="recommended-groups">
+      <h2>Recommended Groups</h2>
+      <% if (recommendedGroups.length> 0) { %>
+        <div class="groups-grid">
+          <% recommendedGroups.forEach(group=> { %>
+            <div class="group-card">
+              <img src="/uploads/<%= group.image %>" alt="<%= group.service %>" />
+              <h4>
+                <%= group.service %>
+              </h4>
+              <p>Price: $<%= group.pricePerUser %>/<%= group.billingCycle %>
+              </p>
+              <p>Slots: <%= group.filledSlots %>/<%= group.totalSlots %>
+              </p>
+              <button class="btn btn-primary join-group" data-group="<%= group._id %>">
+                Join Group
+              </button>
+            </div>
+            <% }); %>
         </div>
-      <% }); %>
-    </div>
-  <% } else { %>
-    <p>No recommended groups at the moment. Why not create your own?</p>
-  <% } %>
-</section>
-
+        <% } else { %>
+          <p>No recommended groups at the moment. Why not create your own?</p>
+          <% } %>
+    </section>
   </main>
 
   <!-- Create Group Modal -->
@@ -76,19 +101,19 @@
       <form id="createGroupForm" enctype="multipart/form-data">
         <div class="form-group">
           <label for="serviceName">Service Name</label>
-          <input type="text" id="serviceName" name="serviceName" required>
+          <input type="text" id="serviceName" name="serviceName" required />
         </div>
         <div class="form-group">
           <label for="groupImage">Service Logo</label>
-          <input type="file" id="groupImage" name="groupImage" accept="image/*" required>
+          <input type="file" id="groupImage" name="groupImage" accept="image/*" required />
         </div>
         <div class="form-group">
           <label for="totalSlots">Total Slots</label>
-          <input type="number" id="totalSlots" name="totalSlots" min="2" required>
+          <input type="number" id="totalSlots" name="totalSlots" min="2" required />
         </div>
         <div class="form-group">
           <label for="totalPrice">Total Price</label>
-          <input type="number" id="totalPrice" name="totalPrice" step="0.01" required>
+          <input type="number" id="totalPrice" name="totalPrice" step="0.01" required />
         </div>
         <div class="form-group">
           <label for="billingCycle">Billing Cycle</label>
@@ -102,7 +127,55 @@
     </div>
   </div>
 
-  <script src="/js/home.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Select all buttons with class 'predict-button'
+      document.querySelectorAll(".predict-button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const card = btn.closest(".card-body");
 
+          // Get values from DOM
+          const price = card
+            .querySelector(".card-price")
+            ?.innerText.match(/\d+/)?.[0];
+          const slots = card
+            .querySelector(".slots-badge")
+            ?.innerText.match(/\d+/)?.[0];
+
+          if (!price || !slots) {
+            alert("Missing data for prediction");
+            return;
+          }
+
+          predictPlan(price, slots, card);
+        });
+      });
+    });
+
+    async function predictPlan(price, slots, card) {
+      try {
+        const response = await fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ price, slots }),
+        });
+
+        if (!response.ok) throw new Error("Request failed");
+
+        const result = await response.json();
+        console.log("Prediction result:", result);
+
+        // Show prediction in the matching card
+        const resultPara = card.querySelector(".prediction-result");
+        if (resultPara) {
+          resultPara.innerText = "Prediction: " + result.prediction;
+        }
+      } catch (error) {
+        console.error("Prediction error:", error);
+      }
+    }
+  </script>
+  <script src="/js/home.js"></script>
 </body>
+
 </html>

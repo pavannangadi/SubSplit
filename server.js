@@ -9,6 +9,7 @@ require('./config/passport');
 const paymentsRoute = require('./routes/payments');
 const app = express();
 const profileRoute = require('./routes/profile');
+const { PythonShell } = require('python-shell');
 
 
 // Database connection
@@ -18,8 +19,8 @@ mongoose.connect('mongodb://localhost:27017/suspsplit', { useNewUrlParser: true,
 
 
 // Middleware
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -55,7 +56,28 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.post('/predict', (req, res) => {
+  const { price, slots } = req.body;
+  console.log('Received data:', req.body);
+
+  const options = {
+    mode: 'json',
+    pythonOptions: ['-u'],
+    scriptPath: './',
+    args: [price, slots]
+  };
+
+  PythonShell.run('predict_plan.py', options).then(results => {
+    console.log('Prediction result from Python:', results);
+    res.json(results[0]); // results is an array with one JSON object
+  }).catch(err => {
+    console.error('Prediction error:', err);
+    res.status(500).json({ error: 'Prediction failed' });
+  });
+});
+
 app.use('/', require('./routes/main'));
+app.use('/groups', require('./routes/groups'));
 app.use('/auth', require('./routes/auth'));
 // ... other routes
 

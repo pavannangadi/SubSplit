@@ -22,6 +22,7 @@ const upload = multer({ storage });
 router.post('/create', ensureAuthenticated, upload.single('groupImage'), async (req, res) => {
   try {
     const { serviceName, totalSlots, totalPrice, billingCycle } = req.body;
+    console.log(serviceName, totalSlots, totalPrice, billingCycle);
     const pricePerUser = (totalPrice / totalSlots).toFixed(2);
     
     const group = new Group({
