@@ -84,18 +84,6 @@ For ML API (if separate):
 cd ml-model/
 python app.py
 ```
-
----
-
-## 📸 Screenshots
-
-> Add UI screenshots here:
-
-* Dashboard
-* Create Subscription Group
-* ML Prediction Output (Plan is Good/Bad)
-* Subscription History
-
 ---
 
 ## 🧪 API Endpoints (if applicable)
